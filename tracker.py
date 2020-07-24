@@ -8,7 +8,7 @@ def home():
     from pandas_datareader._utils import RemoteDataError
     from pandas_datareader import data
     from datetime import datetime
-    from bokeh.plotting import figure, output_file, show
+    from bokeh.plotting import figure
     from bokeh.embed import components
     from bokeh.resources import CDN
 
@@ -41,7 +41,8 @@ def home():
         df['Middle'] = (df.Open + df.Close) / 2
         df['Height'] = abs(df.Close - df.Open)
 
-        p = figure(x_axis_type='datetime', width=1000, height=600, sizing_mode='scale_both')
+        p = figure(x_axis_type='datetime', width=1000, height=600,
+                   sizing_mode='scale_both', toolbar_location='below')
         p.title.text = symbol + ' ' + 'Candlestick Chart'
         p.grid.grid_line_alpha = 0.3
 
