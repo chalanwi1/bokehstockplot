@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script type="text/javascript" src={{cdn_js | safe}}></script>
+    <title>Stock Tracker</title>
+</head>
+<body>
+    <header>
+       <h1>Stock Tracker</h1>
+    </header>
+
+    {% block content %} {% endblock %}
+
+    <form action="{{ url_for('home') }}" class="form" method="post">
+        <label for="stock">Enter Stock Symbol:</label><br>
+        <input type="text" id="stock" name="stock" placeholder="ex..TSLA" size="8" required><br>
+        <label for="start">Start Date:</label><br>
+        <input type="date" id="start" name="start" size="12" required><br>
+        <label for="end">End Date:</label><br>
+        <input type="date" id="end" name="end" size="12" required><br>
+        <input type="submit" value="Submit" id="button">
+    </form>
+
+{{script1 | safe}}
+{{div1 | safe}}
+</body>
+</html>
