@@ -1,25 +1,25 @@
 from flask import Flask, render_template, request
+from pandas_datareader._utils import RemoteDataError
+from pandas_datareader import data
+from bokeh.plotting import figure
+from bokeh.embed import components
+from bokeh.resources import CDN
 
+# url https://bokehstockplot.herokuapp.com
 app = Flask(__name__)
 
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    from pandas_datareader._utils import RemoteDataError
-    from pandas_datareader import data
-    from datetime import datetime
-    from bokeh.plotting import figure
-    from bokeh.embed import components
-    from bokeh.resources import CDN
 
     if request.method == 'GET':
         return render_template('home.html')
 
     elif request.method == 'POST':
 
-        start = datetime.strptime(request.form['start'], '%Y-%m-%d')
+        start = request.form['start']
 
-        end = datetime.strptime(request.form['end'], '%Y-%m-%d')
+        end = request.form['end']
 
         symbol = request.form['stock'].upper()
 
@@ -32,7 +32,7 @@ def home():
             if c > o:
                 value = 'Increase'
             elif c < o:
-                value = 'Decrease'
+                value: str = 'Decrease'
             else:
                 value = 'Equal'
             return value
@@ -41,9 +41,11 @@ def home():
         df['Middle'] = (df.Open + df.Close) / 2
         df['Height'] = abs(df.Close - df.Open)
 
-        p = figure(x_axis_type='datetime', width=1000, height=600,
+        p = figure(x_axis_type='datetime', width=1000, height=400,
                    sizing_mode='scale_both', toolbar_location='below')
-        p.title.text = symbol + ' ' + 'Candlestick Chart'
+        p.title.text = f"{symbol} Candlestick Chart"
+        p.xaxis.axis_label = 'Date'
+        p.yaxis.axis_label = 'Price (USD)'
         p.grid.grid_line_alpha = 0.3
 
         hours_12 = 12 * 60 * 60 * 1000
@@ -62,4 +64,4 @@ def home():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
