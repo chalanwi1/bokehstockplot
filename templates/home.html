@@ -14,8 +14,9 @@
 
     {% block content %} {% endblock %}
 
+    <! create form and execute home function when form is submitted>
     <form action="{{ url_for('home') }}" class="form" method="post">
-        <label for="stock">Enter Stock Symbol:</label><br>
+        <label for="stock">Stock Symbol:</label><br>
         <input type="text" id="stock" name="stock" placeholder="ex..TSLA" size="8" required><br>
         <label for="start">Start Date:</label><br>
         <input type="date" id="start" name="start" size="12" required><br>
